@@ -4,7 +4,7 @@
 //|                                         http://carlosoliveira.me |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2016, Carlos Oliveira"
-#property link      "https://www.forextradingtools.eu?ref=mql5-bb"
+#property link      "https://www.forextradingtools.eu/?utm_campaign=properties.indicator&utm_medium=special&utm_source=mt4terminal"
 #property version   "1.10"
 #property strict
 #property indicator_chart_window
