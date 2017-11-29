@@ -13,7 +13,7 @@
 #include <Controls\CheckGroup.mqh>
 
 extern string TAG = "1";   
-
+extern ENUM_BASE_CORNER Position = CORNER_LEFT_UPPER; //Window Position
 extern string Check01 = ">------- Example 1 -------<";
 extern string Check02 = "Example 2";
 extern string Check03 = "Example 3";
@@ -52,6 +52,8 @@ extern string Check20 = "";
 
 string  DataFileName="data.bin";             // File name
 string  DataDirectoryName="SChecklist";      // Folder name
+
+
 //+------------------------------------------------------------------+
 //| Class CPanelDialog                                               |
 //| Usage: main dialog of the SimplePanel application                |
@@ -296,7 +298,32 @@ int OnInit()
    ObjectsDeleteAll(ChartID(),TAG);
 
 //--- create application dialog
-   if(!ExtDialog.Create(0,TAG+"-Strategy Checklist",0,10,10,330,GetNumLines() * 18 + 50))      
+   int chartHeight=(int)ChartGetInteger(0,CHART_HEIGHT_IN_PIXELS,0);
+   int chartWidth=(int)ChartGetInteger(0,CHART_WIDTH_IN_PIXELS,0);
+   
+   int wndWidth = 330;
+   int wndHeight = GetNumLines() * 18 + 50;
+   
+   int pX1 = 10;  //window x spacing
+   int pY1 = 10;  //window y spacing
+   
+   switch(Position)
+     {      
+      case CORNER_LEFT_LOWER:   
+         pY1 = chartHeight - wndHeight - pY1;
+        break;
+      case CORNER_RIGHT_LOWER:     
+         pX1 = chartWidth - wndWidth - pX1;
+         pY1 = chartHeight - wndHeight - pY1;
+        break;
+      case CORNER_RIGHT_UPPER:       
+         pX1 = chartWidth - wndWidth - pX1; 
+        break;      
+     }
+   int pX2 = pX1 + wndWidth;
+   int pY2 = pY1 + wndHeight;     
+     
+   if(!ExtDialog.Create(0,TAG+"-Strategy Checklist",0,pX1,pY1,pX2,pY2))
       return(INIT_FAILED);
 //--- run application
    if(!ExtDialog.Run())
