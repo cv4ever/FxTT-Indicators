@@ -1,11 +1,11 @@
 //+------------------------------------------------------------------+
 //|                                      FXTT_StrategyChecklist.mq4 |
 //|                                  Copyright 2016, Carlos Oliveira |
-//|                                         http://carlosoliveira.me |
+//|                                         https://www.forextradingtools.eu |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2016, Carlos Oliveira"
-#property link      "https://www.forextradingtools.eu?ref=mql5-sc"
-#property version   "1.10"
+#property link      "https://www.forextradingtools.eu/products/indicators/strategy-checklist-free-indicator/?utm_campaign=properties.indicator&utm_medium=special&utm_source=mt4terminal"
+#property version   "1.20"
 #property strict
 #property indicator_chart_window
 

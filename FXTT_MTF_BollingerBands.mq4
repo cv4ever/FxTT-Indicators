@@ -1,10 +1,10 @@
 //+------------------------------------------------------------------+
 //|                                      FXTT_MTF_BollingerBands.mq4 |
 //|                                  Copyright 2016, Carlos Oliveira |
-//|                                         http://carlosoliveira.me |
+//|                                         https://www.forextradingtools.eu |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2016, Carlos Oliveira"
-#property link      "https://www.forextradingtools.eu/?utm_campaign=properties.indicator&utm_medium=special&utm_source=mt4terminal"
+#property link      "https://www.forextradingtools.eu/products/indicators/mtf-bollinger-bands-indicator/?utm_campaign=properties.indicator&utm_medium=special&utm_source=mt4terminal"
 #property version   "1.10"
 #property strict
 #property indicator_chart_window

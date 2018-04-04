@@ -1,10 +1,10 @@
 //+------------------------------------------------------------------+
 //|                                      FXTT_MTF_BollingerBands.mq4 |
 //|                                  Copyright 2016, Carlos Oliveira |
-//|                                         http://carlosoliveira.me |
+//|                                         https://www.forextradingtools.eu |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2016, Carlos Oliveira"
-#property link      "https://www.forextradingtools.eu/?utm_campaign=properties.indicator&utm_medium=special&utm_source=mt4terminal"
+#property link      "https://www.forextradingtools.eu/products/indicators/mtf-triple-moving-averages-free-indicator/?utm_campaign=properties.indicator&utm_medium=special&utm_source=mt4terminal"
 #property version   "1.00"
 #property strict
 #property indicator_chart_window
@@ -28,17 +28,17 @@ extern int SMAShift=0;                                      //Slow MA shift
 extern ENUM_MA_METHOD SMAMethod = MODE_SMA;                 //Slow MA Method
 extern ENUM_APPLIED_PRICE SMAAppliedPrice = PRICE_CLOSE;    //Slow MA Applied Price
 input string Group3; //---------------------------------------------------
-extern ENUM_LINE_STYLE UpperStyle = STYLE_DOT;  //Fast MA line style
-extern int UpperLineWidth = 1;                  //Fast MA line width
-extern color UpperLineColor = clrTomato;        //Fast MA line color
+extern ENUM_LINE_STYLE UpperStyle = STYLE_DOT;              //Fast MA line style
+extern int UpperLineWidth = 1;                              //Fast MA line width
+extern color UpperLineColor = clrTomato;                    //Fast MA line color
 input string Group4; //---------------------------------------------------
-extern ENUM_LINE_STYLE MainStyle = STYLE_DOT;   //Middle MA line style
-extern int MainLineWidth = 1;                   //Middle MA line style
-extern color MainLineColor=clrMediumSeaGreen;            //Middle MA line style
+extern ENUM_LINE_STYLE MainStyle = STYLE_DOT;               //Middle MA line style
+extern int MainLineWidth = 1;                               //Middle MA line style
+extern color MainLineColor=clrMediumSeaGreen;               //Middle MA line style
 input string Group5; //---------------------------------------------------
-extern ENUM_LINE_STYLE LowerStyle = STYLE_DOT;  //Slow MA line style
-extern int LowerLineWidth = 1;                  //Slow MA line style
-extern color LowerLineColor = clrPurple;        //Slow MA line style
+extern ENUM_LINE_STYLE LowerStyle = STYLE_DOT;              //Slow MA line style
+extern int LowerLineWidth = 1;                              //Slow MA line style
+extern color LowerLineColor = clrPurple;                    //Slow MA line style
 
 //+------------------------------------------------------------------+
 //| defines                                                          |
@@ -55,7 +55,6 @@ extern color LowerLineColor = clrPurple;        //Slow MA line style
 #define GROUP_WIDTH                         (230)     // size by X coordinate
 #define GROUP_HEIGHT                        (57)      // size by Y coordinate
 
-
 string  DataFileName="data.bin";                      // File name
 string  DataDirectoryName="MTFTMA";                   // Folder name
 //+------------------------------------------------------------------+
@@ -67,15 +66,15 @@ class CPanelDialog : public CAppDialog
 private:
    CCheckGroup       m_check_group;                   // the check box group object   
 public:
-   bool              mM1;
-   bool              mM5;
-   bool              mM15;
-   bool              mM30;
-   bool              mH1;
-   bool              mH4;
-   bool              mD1;
-   bool              mW1;
-   bool              mMN1;
+   bool              m_M1;
+   bool              m_M5;
+   bool              m_M15;
+   bool              m_M30;
+   bool              m_H1;
+   bool              m_H4;
+   bool              m_D1;
+   bool              m_W1;
+   bool              m_MN1;
 
                      CPanelDialog(void);
                     ~CPanelDialog(void);
@@ -129,27 +128,27 @@ bool CPanelDialog::Create(const long chart,const string name,const int subwin,co
    if(!CreateCheckGroup())
       return(false);
 
-   mM1=false;
-   mM5=false;
-   mM15=false;
-   mM30=false;
-   mH1=false;
-   mH4=false;
-   mD1=false;
-   mW1=false;
-   mMN1=false;
+   m_M1=false;
+   m_M5=false;
+   m_M15=false;
+   m_M30=false;
+   m_H1=false;
+   m_H4=false;
+   m_D1=false;
+   m_W1=false;
+   m_MN1=false;
 
    ReadIndicatorsData();
 
-   m_check_group.Check(0, mM1);
-   m_check_group.Check(1, mM5);
-   m_check_group.Check(2, mM15);
-   m_check_group.Check(3, mM30);
-   m_check_group.Check(4,mH1);
-   m_check_group.Check(5,mH4);
-   m_check_group.Check(6,mD1);
-   m_check_group.Check(7,mW1);
-   m_check_group.Check(8,mMN1);
+   m_check_group.Check(0, m_M1);
+   m_check_group.Check(1, m_M5);
+   m_check_group.Check(2, m_M15);
+   m_check_group.Check(3, m_M30);
+   m_check_group.Check(4,m_H1);
+   m_check_group.Check(5,m_H4);
+   m_check_group.Check(6,m_D1);
+   m_check_group.Check(7,m_W1);
+   m_check_group.Check(8,m_MN1);
 
 //--- succeed
    return(true);
@@ -202,15 +201,15 @@ bool CPanelDialog::OnResize(void)
 //+------------------------------------------------------------------+
 void CPanelDialog::OnChangeCheckGroup(void)
   {
-   mM1=m_check_group.Check(0);
-   mM5=m_check_group.Check(1);
-   mM15=m_check_group.Check(2);
-   mM30=m_check_group.Check(3);
-   mH1=m_check_group.Check(4);
-   mH4=m_check_group.Check(5);
-   mD1=m_check_group.Check(6);
-   mW1=m_check_group.Check(7);
-   mMN1=m_check_group.Check(8);
+   m_M1=m_check_group.Check(0);
+   m_M5=m_check_group.Check(1);
+   m_M15=m_check_group.Check(2);
+   m_M30=m_check_group.Check(3);
+   m_H1=m_check_group.Check(4);
+   m_H4=m_check_group.Check(5);
+   m_D1=m_check_group.Check(6);
+   m_W1=m_check_group.Check(7);
+   m_MN1=m_check_group.Check(8);
 
    DrawIndicatorsData();
   }
@@ -228,47 +227,47 @@ void CPanelDialog::SetMultipleIndexStyle(int idx1,int idx2,int idx3,int style)
 //+------------------------------------------------------------------+
 void CPanelDialog::DrawIndicatorsData()
   {
-   if(mMN1)
+   if(m_MN1)
       SetMultipleIndexStyle(0,1,2,DRAW_LINE);
    else
       SetMultipleIndexStyle(0,1,2,DRAW_NONE);
 
-   if(mW1 && _Period<=PERIOD_W1)
+   if(m_W1 && _Period<=PERIOD_W1)
       SetMultipleIndexStyle(3,4,5,DRAW_LINE);
    else
       SetMultipleIndexStyle(3,4,5,DRAW_NONE);
 
-   if(mD1 && _Period<=PERIOD_D1)
+   if(m_D1 && _Period<=PERIOD_D1)
       SetMultipleIndexStyle(6,7,8,DRAW_LINE);
    else
       SetMultipleIndexStyle(6,7,8,DRAW_NONE);
 
-   if(mH4 && _Period<=PERIOD_H4)
+   if(m_H4 && _Period<=PERIOD_H4)
       SetMultipleIndexStyle(9,10,11,DRAW_LINE);
    else
       SetMultipleIndexStyle(9,10,11,DRAW_NONE);
 
-   if(mH1 && _Period<=PERIOD_H1)
+   if(m_H1 && _Period<=PERIOD_H1)
       SetMultipleIndexStyle(12,13,14,DRAW_LINE);
    else
       SetMultipleIndexStyle(12,13,14,DRAW_NONE);
 
-   if(mM30 && _Period<=PERIOD_M30)
+   if(m_M30 && _Period<=PERIOD_M30)
       SetMultipleIndexStyle(15,16,17,DRAW_LINE);
    else
       SetMultipleIndexStyle(15,16,17,DRAW_NONE);
 
-   if(mM15 && _Period<=PERIOD_M15)
+   if(m_M15 && _Period<=PERIOD_M15)
       SetMultipleIndexStyle(18,19,20,DRAW_LINE);
    else
       SetMultipleIndexStyle(18,19,20,DRAW_NONE);
 
-   if(mM5 && _Period<=PERIOD_M5)
+   if(m_M5 && _Period<=PERIOD_M5)
       SetMultipleIndexStyle(21,22,23,DRAW_LINE);
    else
       SetMultipleIndexStyle(21,22,23,DRAW_NONE);
 
-   if(mM1 && _Period<=PERIOD_M1)
+   if(m_M1 && _Period<=PERIOD_M1)
       SetMultipleIndexStyle(24,25,26,DRAW_LINE);
    else
       SetMultipleIndexStyle(24,25,26,DRAW_NONE);
@@ -284,41 +283,41 @@ void CPanelDialog::DrawLabels()
    string middleText=" "+IntegerToString(MMAPeriod)+" MA";
    string slowText=" "+IntegerToString(SMAPeriod)+" MA";
 
-   DrawPriceLabel(mM1 && _Period<=PERIOD_M1,lblM1h,bufferM1FMA[0],"M1"+fastText,UpperLineColor);
-   DrawPriceLabel(mM1 && _Period<=PERIOD_M1,lblM1m,bufferM1MMA[0],"M1"+middleText,MainLineColor);
-   DrawPriceLabel(mM1 && _Period<=PERIOD_M1,lblM1l,bufferM1SMA[0],"M1"+slowText,LowerLineColor);
+   DrawPriceLabel(m_M1 && _Period<=PERIOD_M1,lblM1h,bufferM1FMA[0],"M1"+fastText,UpperLineColor);
+   DrawPriceLabel(m_M1 && _Period<=PERIOD_M1,lblM1m,bufferM1MMA[0],"M1"+middleText,MainLineColor);
+   DrawPriceLabel(m_M1 && _Period<=PERIOD_M1,lblM1l,bufferM1SMA[0],"M1"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mM5 && _Period<=PERIOD_M5,lblM5h,bufferM5FMA[0],"M5"+fastText,UpperLineColor);
-   DrawPriceLabel(mM5 && _Period<=PERIOD_M5,lblM5m,bufferM5MMA[0],"M5"+middleText,MainLineColor);
-   DrawPriceLabel(mM5 && _Period<=PERIOD_M5,lblM5l,bufferM5SMA[0],"M5"+slowText,LowerLineColor);
+   DrawPriceLabel(m_M5 && _Period<=PERIOD_M5,lblM5h,bufferM5FMA[0],"M5"+fastText,UpperLineColor);
+   DrawPriceLabel(m_M5 && _Period<=PERIOD_M5,lblM5m,bufferM5MMA[0],"M5"+middleText,MainLineColor);
+   DrawPriceLabel(m_M5 && _Period<=PERIOD_M5,lblM5l,bufferM5SMA[0],"M5"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mM15 && _Period<=PERIOD_M15,lblM15h,bufferM15FMA[0],"M15"+fastText,UpperLineColor);
-   DrawPriceLabel(mM15 && _Period<=PERIOD_M15,lblM15m,bufferM15MMA[0],"M15"+middleText,MainLineColor);
-   DrawPriceLabel(mM15 && _Period<=PERIOD_M15,lblM15l,bufferM15SMA[0],"M15"+slowText,LowerLineColor);
+   DrawPriceLabel(m_M15 && _Period<=PERIOD_M15,lblM15h,bufferM15FMA[0],"M15"+fastText,UpperLineColor);
+   DrawPriceLabel(m_M15 && _Period<=PERIOD_M15,lblM15m,bufferM15MMA[0],"M15"+middleText,MainLineColor);
+   DrawPriceLabel(m_M15 && _Period<=PERIOD_M15,lblM15l,bufferM15SMA[0],"M15"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mM30 && _Period<=PERIOD_M30,lblM30h,bufferM30FMA[0],"M30"+fastText,UpperLineColor);
-   DrawPriceLabel(mM30 && _Period<=PERIOD_M30,lblM30m,bufferM30MMA[0],"M30"+middleText,MainLineColor);
-   DrawPriceLabel(mM30 && _Period<=PERIOD_M30,lblM30l,bufferM30SMA[0],"M30"+slowText,LowerLineColor);
+   DrawPriceLabel(m_M30 && _Period<=PERIOD_M30,lblM30h,bufferM30FMA[0],"M30"+fastText,UpperLineColor);
+   DrawPriceLabel(m_M30 && _Period<=PERIOD_M30,lblM30m,bufferM30MMA[0],"M30"+middleText,MainLineColor);
+   DrawPriceLabel(m_M30 && _Period<=PERIOD_M30,lblM30l,bufferM30SMA[0],"M30"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mH1 && _Period<=PERIOD_H1,lblH1h,bufferH1FMA[0],"H1"+fastText,UpperLineColor);
-   DrawPriceLabel(mH1 && _Period<=PERIOD_H1,lblH1m,bufferH1MMA[0],"H1"+middleText,MainLineColor);
-   DrawPriceLabel(mH1 && _Period<=PERIOD_H1,lblH1l,bufferH1SMA[0],"H1"+slowText,LowerLineColor);
+   DrawPriceLabel(m_H1 && _Period<=PERIOD_H1,lblH1h,bufferH1FMA[0],"H1"+fastText,UpperLineColor);
+   DrawPriceLabel(m_H1 && _Period<=PERIOD_H1,lblH1m,bufferH1MMA[0],"H1"+middleText,MainLineColor);
+   DrawPriceLabel(m_H1 && _Period<=PERIOD_H1,lblH1l,bufferH1SMA[0],"H1"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mH4 && _Period<=PERIOD_H4,lblH4h,bufferH4FMA[0],"H4"+fastText,UpperLineColor);
-   DrawPriceLabel(mH4 && _Period<=PERIOD_H4,lblH4m,bufferH4MMA[0],"H4"+middleText,MainLineColor);
-   DrawPriceLabel(mH4 && _Period<=PERIOD_H4,lblH4l,bufferH4SMA[0],"H4"+slowText,LowerLineColor);
+   DrawPriceLabel(m_H4 && _Period<=PERIOD_H4,lblH4h,bufferH4FMA[0],"H4"+fastText,UpperLineColor);
+   DrawPriceLabel(m_H4 && _Period<=PERIOD_H4,lblH4m,bufferH4MMA[0],"H4"+middleText,MainLineColor);
+   DrawPriceLabel(m_H4 && _Period<=PERIOD_H4,lblH4l,bufferH4SMA[0],"H4"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mD1 && _Period<=PERIOD_D1,lblD1h,bufferD1FMA[0],"D1"+fastText,UpperLineColor);
-   DrawPriceLabel(mD1 && _Period<=PERIOD_D1,lblD1m,bufferD1MMA[0],"D1"+middleText,MainLineColor);
-   DrawPriceLabel(mD1 && _Period<=PERIOD_D1,lblD1l,bufferD1SMA[0],"D1"+slowText,LowerLineColor);
+   DrawPriceLabel(m_D1 && _Period<=PERIOD_D1,lblD1h,bufferD1FMA[0],"D1"+fastText,UpperLineColor);
+   DrawPriceLabel(m_D1 && _Period<=PERIOD_D1,lblD1m,bufferD1MMA[0],"D1"+middleText,MainLineColor);
+   DrawPriceLabel(m_D1 && _Period<=PERIOD_D1,lblD1l,bufferD1SMA[0],"D1"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mW1 && _Period<=PERIOD_W1,lblW1h,bufferW1FMA[0],"W1"+fastText,UpperLineColor);
-   DrawPriceLabel(mW1 && _Period<=PERIOD_W1,lblW1m,bufferW1MMA[0],"W1"+middleText,MainLineColor);
-   DrawPriceLabel(mW1 && _Period<=PERIOD_W1,lblW1l,bufferW1SMA[0],"W1"+slowText,LowerLineColor);
+   DrawPriceLabel(m_W1 && _Period<=PERIOD_W1,lblW1h,bufferW1FMA[0],"W1"+fastText,UpperLineColor);
+   DrawPriceLabel(m_W1 && _Period<=PERIOD_W1,lblW1m,bufferW1MMA[0],"W1"+middleText,MainLineColor);
+   DrawPriceLabel(m_W1 && _Period<=PERIOD_W1,lblW1l,bufferW1SMA[0],"W1"+slowText,LowerLineColor);
 
-   DrawPriceLabel(mMN1,lblMN1h,bufferMN1FMA[0],"MN1"+fastText,UpperLineColor);
-   DrawPriceLabel(mMN1,lblMN1m,bufferMN1MMA[0],"MN1"+middleText,MainLineColor);
-   DrawPriceLabel(mMN1,lblMN1l,bufferMN1SMA[0],"MN1"+slowText,LowerLineColor);
+   DrawPriceLabel(m_MN1,lblMN1h,bufferMN1FMA[0],"MN1"+fastText,UpperLineColor);
+   DrawPriceLabel(m_MN1,lblMN1m,bufferMN1MMA[0],"MN1"+middleText,MainLineColor);
+   DrawPriceLabel(m_MN1,lblMN1l,bufferMN1SMA[0],"MN1"+slowText,LowerLineColor);
   }
 //+------------------------------------------------------------------+
 //| Rest events handler                                                    |
@@ -604,15 +603,15 @@ void CPanelDialog::WriteIndicatorsData()
    bool arr[9];
    string path=DataDirectoryName+"//"+Symbol()+DataFileName;
 
-   arr[0] = mM1;
-   arr[1] = mM5;
-   arr[2] = mM15;
-   arr[3] = mM30;
-   arr[4] = mH1;
-   arr[5] = mH4;
-   arr[6] = mD1;
-   arr[7] = mW1;
-   arr[8] = mMN1;
+   arr[0] = m_M1;
+   arr[1] = m_M5;
+   arr[2] = m_M15;
+   arr[3] = m_M30;
+   arr[4] = m_H1;
+   arr[5] = m_H4;
+   arr[6] = m_D1;
+   arr[7] = m_W1;
+   arr[8] = m_MN1;
 
 //--- open the file
    ResetLastError();
@@ -646,15 +645,15 @@ void CPanelDialog::ReadIndicatorsData()
       FileReadArray(file_handle,arr);
       int size=ArraySize(arr);
 
-      mM1 = arr[0];
-      mM5 = arr[1];
-      mM15 = arr[2];
-      mM30 = arr[3];
-      mH1 = arr[4];
-      mH4 = arr[5];
-      mD1 = arr[6];
-      mW1 = arr[7];
-      mMN1= arr[8];
+      m_M1 = arr[0];
+      m_M5 = arr[1];
+      m_M15 = arr[2];
+      m_M30 = arr[3];
+      m_H1 = arr[4];
+      m_H4 = arr[5];
+      m_D1 = arr[6];
+      m_W1 = arr[7];
+      m_MN1= arr[8];
 
       //--- close the file
       FileClose(file_handle);
